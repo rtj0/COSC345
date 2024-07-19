@@ -30,6 +30,8 @@ void drawBoard() {
     }
 }
 
+
+
 int kbhit(void) {
     struct termios oldt, newt;
     int ch;
