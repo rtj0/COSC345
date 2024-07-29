@@ -7,11 +7,29 @@
 
 #ifdef _WIN32
 #include <windows.h>
+
+void SetConsoleSize(int width, int height)
+{
+    HWND termial = GetConsoleWindow();
+    Rect r;
+    GetWindowRect(terminal, &r);
+
+    MoveWindow(console, r.left, r.top, width, height, TRUE);
+
+    SetWindowLong(console, GWL_STYLE, GetWindowLong(console, GWL_STYLE) & ~WS_SIZEBOX);
+}
+
 #else
+#include <sys/ioctl.h>
 #include <unistd.h>
 #include <termios.h>
-#endif
 
+void SetTerminalSize(int height, int width)
+{
+    std::cout << "\e[8;50;100t";
+}
+
+#endif
 // Function to mimic a delay
 void delay(int milliseconds)
 {
