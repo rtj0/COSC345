@@ -32,7 +32,6 @@ void printHealth(int playerHealth, int enemyHealth)
 
 void combatV1(int playerHealth, int enemyHealth, int difficulty)
 {
-
     std::string moves[] = {"\u2190", "\u2191", "\u2192", "\u2193"};
     std::string keyBoardEquivalent[] = {"a", "w", "d", "s"};
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -81,4 +80,18 @@ void combatV1(int playerHealth, int enemyHealth, int difficulty)
     }
 
     std::cout << moves[0] << std::endl; // End message or action
+}
+
+void combatV2(int playerHealth, int enemyHealth)
+{
+    // o > s, d > o, s > d
+    char combatType[] = {'o', 'd', 's'};
+    std::string options[] = {"Offensive", "Sneaky", "Defensive"};
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    int random_number = std::rand() % 3;
+
+    while (playerHealth > 0 && enemyHealth > 0)
+    {
+        std::cout << "Please select a attack type";
+    }
 }
