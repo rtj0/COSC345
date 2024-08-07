@@ -1,1 +1,2 @@
+In the src directory then run:
 g++ valeris.cpp -w -o valeris && ./valeris
