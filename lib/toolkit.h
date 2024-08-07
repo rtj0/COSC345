@@ -9,9 +9,9 @@
 
 void SetConsoleSize(int width, int height)
 {
-    HWND termial = GetConsoleWindow();
-    Rect r;
-    GetWindowRect(terminal, &r);
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
 
     MoveWindow(console, r.left, r.top, width, height, TRUE);
 

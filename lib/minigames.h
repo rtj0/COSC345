@@ -1,19 +1,27 @@
 #include <iostream>
-#include <unistd.h>
 #include <thread>
+#include <cstdlib>
+#include <ctime>
+#include <limits>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 /* TicTacToe */
 class TicTacToe
 {
 private:
     char squares[3][3] =
-        {
-            {' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+    {
+        {' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '} };
 
 public:
     void printBoard()
     {
-        std::string arr[2] = {"\n   |   |   ", "\n___|___|___"};
+        std::string arr[2] = { "\n   |   |   ", "\n___|___|___" };
 
         std::string top = std::string("\n ") + squares[0][0] + " | " + squares[0][1] + " | " + squares[0][2] + " ";
         std::string middle = std::string("\n ") + squares[1][0] + " | " + squares[1][1] + " | " + squares[1][2] + " ";
@@ -97,7 +105,7 @@ public:
             if (std::cin.fail() || row < 1 || row > 3 || col < 1 || col > 3)
             {
                 std::cin.clear();                                                   // clear the error flag on cin
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+                //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
                 std::cout << "Invalid input. Please enter numbers between 1 and 3." << std::endl;
                 continue;
             }
@@ -123,7 +131,11 @@ public:
                 break;
             }
 
+#ifdef _WIN32
+            Sleep(1000); // Sleep for 1 second
+#else
             sleep(1); // Sleep for 1 second
+#endif
 
             computerTurn();
             if (checkForWin())
