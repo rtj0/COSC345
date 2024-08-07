@@ -1,3 +1,6 @@
+#ifndef TOOLKIT_H
+#define TOOLKIT_H
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -87,7 +90,7 @@ void typePrint(std::string content)
     {
         for (char c : text)
         {
-            std::cout << c << std::flush;
+            std::cout << "\033[36m" << c << std::flush;
             delay(25);
         }
         enableInput();
@@ -111,3 +114,29 @@ std::string getFileContent(std::string fileName)
     }
     return file_contents;
 }
+
+std::vector<std::string> split(const std::string &str, char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(str);
+
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
+void clear(int limit)
+{
+    for (int i = 0; i < limit; i++)
+    {
+        std::cout << "\033[A\033[K";
+        std::cout.flush();
+        // sleep(1);
+    }
+}
+
+#endif // TOOLKIT_H

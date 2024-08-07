@@ -1,6 +1,5 @@
-#include "../lib/toolkit.h"
 #include "../lib/combat.h"
-#include "../lib/minigames.h"
+#include "minigames.cpp"
 
 int main()
 {
@@ -10,9 +9,13 @@ int main()
   SetTerminalSize(24, 80);
 #endif
 
-  // typePrint(getFileContent("../txt_files/intro.txt"));
+  // typePrint(getFileContent("../reasources/intro.txt"));
   // combatV1(100, 100, 2000);
-  TicTacToe game;
-  game.startGame();
+  // TicTacToe game;
+  // game.startGame();
+
+  CodeGuesser ggame;
+  ggame.start();
+
   return 0;
 }
