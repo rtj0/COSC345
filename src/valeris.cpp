@@ -1,5 +1,5 @@
-#include "../lib/combat.h"
-#include "minigames.cpp"
+#include "../helper/combat.cpp"
+#include "../helper/minigames.cpp"
 
 int main()
 {
