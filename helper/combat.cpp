@@ -1,16 +1,4 @@
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <chrono>
-#include <thread>
-#include <fstream>
-
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#include <termios.h>
-#endif
+#include "../lib/dependencies.h"
 
 void printHealth(int playerHealth, int enemyHealth)
 {

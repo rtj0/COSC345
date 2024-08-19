@@ -1,15 +1,5 @@
-#include <iostream>
-#include <thread>
-#include <cstdlib>
-#include <ctime>
-#include <limits>
-
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
+#include "toolkit.cpp"
+#include "../lib/dependencies.h"
 /* TicTacToe */
 class TicTacToe
 {
@@ -31,15 +21,6 @@ public:
         std::cout.flush();
     }
 
-    void clearBoard()
-    {
-        for (int i = 0; i < 12; i++)
-        {
-            std::cout << "\033[A\033[K";
-            std::cout.flush();
-        }
-    }
-
     void computerTurn()
     {
         std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -55,7 +36,7 @@ public:
             }
         }
         std::cout << "\n\n";
-        clearBoard();
+        clear(12);
         printBoard();
     }
 
@@ -104,8 +85,8 @@ public:
 
             if (std::cin.fail() || row < 1 || row > 3 || col < 1 || col > 3)
             {
-                std::cin.clear(); // clear the error flag on cin
-                // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+                std::cin.clear();            // clear the error flag on cin
+                std::cin.ignore(1000, '\n'); // discard invalid input
                 std::cout << "Invalid input. Please enter numbers between 1 and 3." << std::endl;
                 continue;
             }
@@ -117,7 +98,7 @@ public:
             }
 
             squares[row - 1][col - 1] = 'X';
-            clearBoard();
+            clear(12);
             printBoard();
             if (checkForWin())
             {
@@ -132,9 +113,9 @@ public:
             }
 
 #ifdef _WIN32
-            Sleep(1000); // Sleep for 1 second
+            Sleep(1); // Sleep for 1 second
 #else
-            sleep(1); // Sleep for 1 second
+            sleep(1);
 #endif
 
             computerTurn();
@@ -149,6 +130,120 @@ public:
                 std::cout << "Draw!" << std::endl;
                 break;
             }
+        }
+    }
+};
+
+/** CodeGuesser game */
+class CodeGuesser
+{
+
+private:
+    std::vector<std::string> words;
+    std::vector<std::string> guesses;
+    int index;
+
+    static int generateRandomIndex(size_t size)
+    {
+        if (size == 0)
+        {
+            throw std::invalid_argument("Size of words vector must be greater than 0");
+        }
+        std::random_device rd;                            // Seed
+        std::mt19937 gen(rd());                           // Mersenne Twister engine
+        std::uniform_int_distribution<> dis(0, size - 1); // Distribution range
+        return dis(gen);
+    };
+
+public:
+    CodeGuesser()
+        : words(split(getFileContent("../reasources/cg_words.txt"), '\n')),
+          index(generateRandomIndex(words.size())) {}
+
+    void start()
+    {
+        bool success = false;
+        int count = 0;
+        while (count < 5)
+        {
+            std::cout << "Please enter the five lettered passcode: " + std::to_string(5 - count) + " guesses remaining\n\n";
+            printGuesses();
+
+            if (addGuess())
+            {
+                success = true;
+                break;
+            }
+            clear(4 + count);
+            count++;
+        }
+
+        if (success)
+        {
+            std::cout << "Passcode Accepted!";
+        }
+        else
+        {
+            std::cout << "Too many failed attempts! Please restart";
+        }
+    }
+
+    bool addGuess()
+    {
+        // Yellow, Green, Reset
+        std::string colorCodes[] = {"\033[43m", "\033[42m", "\033[0m"};
+        std::string guess, coloredGuess;
+        std::cin >> guess;
+
+        bool correct = true;
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (words.at(index).at(i) == guess.at(i))
+            {
+                coloredGuess.append(colorCodes[1] + guess.substr(i, 1) + colorCodes[2] + " ");
+                continue;
+            }
+            else
+            {
+                correct = false;
+            }
+            bool contains = false;
+            for (int j = 0; j < 5; j++)
+            {
+                if (words.at(index).at(j) == guess.at(i))
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (contains)
+            {
+                coloredGuess.append(colorCodes[0] + guess.substr(i, 1) + colorCodes[2] + " ");
+            }
+            else
+            {
+                coloredGuess.append(guess.substr(i, 1) + " ");
+            }
+        }
+        guesses.push_back(coloredGuess);
+        return correct;
+    }
+
+    void printGuesses()
+    {
+        for (const auto &guess : guesses)
+        {
+            std::cout << guess << "\n";
+        }
+        std::cout << +"\npasscode: ";
+    }
+
+    void printWords()
+    {
+        for (int i = 0; i < words.size(); i++)
+        {
+            std::cout << words.at(i) + "\n";
         }
     }
 };

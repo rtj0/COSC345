@@ -1,11 +1,4 @@
-#ifndef TOOLKIT_H
-#define TOOLKIT_H
-
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <chrono>
-#include <fstream>
+#include "../lib/dependencies.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -138,5 +131,3 @@ void clear(int limit)
         // sleep(1);
     }
 }
-
-#endif // TOOLKIT_H
