@@ -1,9 +1,14 @@
 #include <iostream>
-#include <unistd.h>
 #include <thread>
 #include <random>
 #include "../lib/toolkit.h"
 
+#ifdef _WIN32
+#include <windows.h>
+
+#else
+#include <unistd.h>
+#endif
 /* TicTacToe */
 class TicTacToe
 {
