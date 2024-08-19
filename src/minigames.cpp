@@ -95,7 +95,7 @@ public:
             if (std::cin.fail() || row < 1 || row > 3 || col < 1 || col > 3)
             {
                 std::cin.clear();                                                   // clear the error flag on cin
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+                std::cin.ignore(1000, '\n'); // discard invalid input
                 std::cout << "Invalid input. Please enter numbers between 1 and 3." << std::endl;
                 continue;
             }
@@ -121,7 +121,11 @@ public:
                 break;
             }
 
-            sleep(1); // Sleep for 1 second
+            #ifdef _WIN32
+             Sleep(1); // Sleep for 1 second
+            #else
+            sleep(1);
+            #endif
 
             computerTurn();
             if (checkForWin())
