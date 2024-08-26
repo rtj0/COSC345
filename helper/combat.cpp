@@ -1,3 +1,9 @@
+/*!
+@combat.cpp
+@brief Doxygen example
+@author Andrew Trotman
+@copyright 2023 Andrew Trotman
+*/
 #include <iostream>
 #include <string>
 #include <cstdlib>     // For std::rand and std::srand
