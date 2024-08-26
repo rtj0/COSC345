@@ -10,6 +10,10 @@
 #include <ctime>       // For std::time
 #include <chrono>      // For timing input
 
+
+
+class combat{
+public: 
 // Function to print health bars for both player and enemy
 void printHealth(int playerHealth, int enemyHealth)
 {
@@ -98,4 +102,15 @@ void combatV2(int playerHealth, int enemyHealth)
     {
         std::cout << "Please select an attack type"; // Prompt user (incomplete implementation)
     }
+
+}
+
+
+
+
+
+
+
+
+
 }
